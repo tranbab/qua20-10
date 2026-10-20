@@ -107,7 +107,7 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .ph img,.ph div{width:100%;height:100%;border-radius:5px;object-fit:cover;pointer-events:none;display:block}
 .ph div{display:grid;place-items:center;font-size:30px;background:linear-gradient(160deg,#ffb3d1,#ff6fa5)}
 
-/* CSS cho hoa kéo thả */
+/* CSS cho các bông hoa có thể kéo thả */
 .interactive-flower {
   position: absolute;
   cursor: grab;
@@ -236,26 +236,26 @@ button:focus-visible{outline:3px solid #fff;outline-offset:3px}
 /* ====== CẤU HÌNH ====== */
 const CONFIG = {
   musicSrc: "nhac.mp3", 
-  to: "Gửi Frigg của em,",
+  to: "Gửi bạn Quỳnh xinh đẹp:),",
   letter: [
-    "Nhân ngày 20/10, em muốn gửi đến anh bó hoa tulip này như một lời cảm ơn vì đã ở cạnh và giúp đỡ em những lúc khó khăn . ",
-    "Chị là nguồn động lực để em có thể bước tiếp, em hơi vụng về trong lời nói nên em chỉ có thể dùng bó hoa này để bày tỏ",
-    "Chúc chị luôn xinh đẹp, tràn đầy năng lượng và mãi hạnh phúc. Mong những bình yên sẽ mãi bên chị."
+    "Nhân ngày 20/10, tớ xin cảm ơn bạn vĩ đã đồng hành cùng tớ trong suốt thời gian qua.",
+    "Chúc bạn mãi xinh đẹp, tràn đầy năng lượng và hạnh phúc. ",
+    "Mong bạn luôn bình yên, vui vẻ, mãi là phiên bản tuyệt nhất của chính bạn nhá."
   ],
-  sign: "20/10 thật vui vẻ 💗",
+  sign: "Iu Iu 💗",
   captions: [
-    "Đêm nay có một bó tulip gửi đến chị",
-    "Vì chị xứng đáng với những điều dịu dàng nhất",
+    "Đêm nay có một bó tulip gửi đến bạn",
+    "Vì bạn xứng đáng với những điều dịu dàng nhất",
     "Chạm vào phong thư nhé"
   ],
   galleryCaption: "Những khoảnh khắc của riêng mình",
   bg: "https://cdn.upanhlaylink.com/i/ccJHJ54V.jpg",
-  photos: ["https://cdn.upanhlaylink.com/i/0chy8tvo.jpeg",
-    "https://cdn.upanhlaylink.com/i/Nsr2dT66.jpeg",
-    "https://cdn.upanhlaylink.com/i/aW7wU4pn.jpeg",
-    "https://cdn.upanhlaylink.com/i/ZAqXHroq.jpeg",
-    "https://cdn.upanhlaylink.com/i/3hg11WBK.jpeg",
-    "https://cdn.upanhlaylink.com/i/SVxfGAkS.jpeg"
+  photos: ["https://cdn.upanhlaylink.com/i/LL2ehlJB.png",
+    "https://cdn.upanhlaylink.com/i/woR2Jsgu.png",
+    "https://cdn.upanhlaylink.com/i/IpUEGAyb.png",
+    "https://cdn.upanhlaylink.com/i/p1rYFEdW.png",
+    "https://cdn.upanhlaylink.com/i/uzjy3Y7Q.png",
+    "https://cdn.upanhlaylink.com/i/dxwjkOFk.png"
   ]
 };
 /* ======================== */
@@ -263,7 +263,7 @@ const CONFIG = {
 const $=s=>document.querySelector(s), app=$('#app'), cap=$('#cap');
 if(CONFIG.bg){$('#bg').style.backgroundImage=`url("${CONFIG.bg}")`;document.body.classList.add('has-bg')}
 
-/* Bó hoa tulip */
+/* Bó hoa tulip nhiều lớp với thời gian trễ được làm chậm rãi */
 (function(){
   const pos=[
     [150,66,1.02],[112,88,.94],[188,88,.96],[78,119,.86],[150,108,1.02],
@@ -461,7 +461,7 @@ $('#env').onclick=()=>{
 $('#x').onclick=()=>hideLetter();
 $('#go').onclick=()=>hideLetter(toGallery);
 
-/* Bước 3: Tương tác hoa, xếp trái tim sau 10s, và xếp chữ NGỌC chuẩn xác sau 10s tiếp theo */
+/* Bước 3: Ảnh & Hiệu ứng thảm hoa tương tác kéo thả & xếp hình trái tim */
 const G=$('#gallery');let z=1,n=0;
 let galleryTimer = null;
 let globalFlowerElements = [];
@@ -553,6 +553,7 @@ function wipe(){
   })(startTime);
 }
 
+/* KHI HẾT 10S: Gom ảnh và bùng nổ thảm hoa, sau đó xếp thành hình trái tim */
 function triggerPhotoGatherAndFlowerExplosion() {
   const photos = document.querySelectorAll('.ph');
   if (photos.length === 0) return;
@@ -587,7 +588,7 @@ function createInteractiveFlowerCarpet() {
 
   const cx = window.innerWidth / 2;
   const cy = window.innerHeight / 2;
-  const totalFlowers = 420;
+  const totalFlowers = 350;
   globalFlowerElements = [];
 
   const colorPalettes = [
@@ -604,7 +605,7 @@ function createInteractiveFlowerCarpet() {
   for (let i = 0; i < totalFlowers; i++) {
     const flower = document.createElement('div');
     flower.className = 'interactive-flower';
-    const size = Math.random() * 38 + 26;
+    const size = Math.random() * 45 + 30;
     const col = colorPalettes[Math.floor(Math.random() * colorPalettes.length)];
 
     flower.innerHTML = `
@@ -636,6 +637,7 @@ function createInteractiveFlowerCarpet() {
     container.appendChild(flower);
     globalFlowerElements.push(flower);
 
+    // Kích hoạt tính năng kéo thả (Drag & Drop) cho từng bông hoa
     let isDragging = false, startX, startY, initialLeft, initialTop;
     flower.addEventListener('pointerdown', e => {
       isDragging = true;
@@ -674,18 +676,13 @@ function createInteractiveFlowerCarpet() {
     }, 20 + i * 2);
   }
 
-  // SAU 10S: Xếp hình trái tim
+  // Sau khi nở tràn màn hình đúng 10 giây, toàn bộ các bông hoa tự động xếp lại thành hình trái tim
   setTimeout(() => {
     arrangeFlowersIntoHeart();
   }, 5000);
-
-  // SAU 20S: Xếp thành chữ NGỌC chuẩn xác
-  setTimeout(() => {
-    arrangeFlowersIntoNgoc();
-  }, 10000);
 }
 
-/* 1. Xếp hình trái tim */
+/* Hàm tính toán tọa độ để xếp hoa thành hình trái tim */
 function arrangeFlowersIntoHeart() {
   if (!globalFlowerElements || globalFlowerElements.length === 0) return;
   const cx = window.innerWidth / 2;
@@ -693,6 +690,7 @@ function arrangeFlowersIntoHeart() {
   const scaleFactor = Math.min(window.innerWidth, window.innerHeight) / 38;
 
   globalFlowerElements.forEach((flower, index) => {
+    // Công thức toán học tạo hình trái tim (Parametric Heart Equation)
     const t = (index / globalFlowerElements.length) * Math.PI * 2;
     const hx = 16 * Math.pow(Math.sin(t), 3);
     const hy = -(13 * Math.cos(t) - 5 * Math.cos(2*t) - 2 * Math.cos(3*t) - Math.cos(4*t));
@@ -704,62 +702,6 @@ function arrangeFlowersIntoHeart() {
     flower.style.left = targetX + 'px';
     flower.style.top = targetY + 'px';
     flower.style.transform = 'translate(-50%, -50%) scale(1) rotate(0deg)';
-  });
-}
-
-/* 2. Xếp chữ NGỌC chuẩn nét cấu trúc hình học */
-function arrangeFlowersIntoNgoc() {
-  if (!globalFlowerElements || globalFlowerElements.length === 0) return;
-  const ngocPoints = [];
-  const total = globalFlowerElements.length;
-  const perLetter = Math.floor(total / 4);
-
-  function addLine(x1, y1, x2, y2, count) {
-    for (let i = 0; i <= count; i++) {
-      const f = i / (count || 1);
-      ngocPoints.push([x1 + (x2 - x1) * f, y1 + (y2 - y1) * f]);
-    }
-  }
-
-  function addArc(cx, cy, r, startAngle, endAngle, count) {
-    for (let i = 0; i <= count; i++) {
-      const a = startAngle + (endAngle - startAngle) * (i / (count || 1));
-      ngocPoints.push([cx + Math.cos(a) * r, cy + Math.sin(a) * r]);
-    }
-  }
-
-  // --- Chữ N ---
-  addLine(-0.78, 0.45, -0.78, -0.45, Math.floor(perLetter * 0.3));
-  addLine(-0.78, -0.45, -0.52, 0.45, Math.floor(perLetter * 0.4));
-  addLine(-0.52, 0.45, -0.52, -0.45, Math.floor(perLetter * 0.3));
-
-  // --- Chữ G ---
-  addArc(-0.15, 0, 0.42, -Math.PI * 0.7, Math.PI * 1.5, Math.floor(perLetter * 0.65));
-  addLine(-0.15, 0, 0.12, 0, Math.floor(perLetter * 0.2));
-  addLine(0.12, 0, 0.12, 0.42, Math.floor(perLetter * 0.15));
-
-  // --- Chữ Ọ ---
-  addArc(0.48, 0, 0.40, 0, Math.PI * 2, Math.floor(perLetter * 0.85));
-  addLine(0.55, 0.50, 0.65, 0.62, Math.floor(perLetter * 0.15));
-
-  // --- Chữ C (ĐÃ SỬA: Đảo chiều mở đúng hướng sang bên phải) ---
-  const cPointsCount = total - ngocPoints.length;
-  addArc(1.10, 0, 0.42, Math.PI * 0.35, Math.PI * 1.65, Math.max(10, cPointsCount));
-
-  const screenCx = window.innerWidth / 2;
-  const screenCy = window.innerHeight / 2;
-  const scaleX = Math.min(window.innerWidth, window.innerHeight) * 0.40;
-  const scaleY = Math.min(window.innerWidth, window.innerHeight) * 0.30;
-
-  globalFlowerElements.forEach((flower, index) => {
-    const pt = ngocPoints[index % ngocPoints.length];
-    const targetX = screenCx + pt[0] * scaleX;
-    const targetY = screenCy + pt[1] * scaleY;
-
-    flower.style.transition = 'left 2.2s cubic-bezier(0.25, 1, 0.5, 1), top 2.2s cubic-bezier(0.25, 1, 0.5, 1), transform 2.2s cubic-bezier(0.25, 1, 0.5, 1)';
-    flower.style.left = targetX + 'px';
-    flower.style.top = targetY + 'px';
-    flower.style.transform = 'translate(-50%, -50%) scale(1.05) rotate(0deg)';
   });
 }
 
